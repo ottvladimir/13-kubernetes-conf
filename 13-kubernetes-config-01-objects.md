@@ -208,7 +208,7 @@ spec:
 ```
 Стартую
 ```bash
- kubectl apply -f prod/.                                                                                                                                                                                     
+$ kubectl apply -f prod/.                                                                                                                                                                                     
 deployment.apps/backend created                                                                                                                                                                                                                                                 
 service/backend created                                                                                                                                                                                                                                                         
 deployment.apps/frontend created                                                                                                                                                                                                                                                
@@ -217,26 +217,28 @@ deployment.apps/postgresql created
 service/postgresql created 
 ```
 ```bash
-$ kubectl get all
-NAME                             READY   STATUS    RESTARTS   AGE
-pod/backend-6599ccf48b-ck9lg     1/1     Running   0          6m20s
-pod/frontend-668bbb4c75-2tl2g    1/1     Running   0          4m51s
-pod/postgresql-5945ddc6f-t2m9p   1/1     Running   0          6m20s
-
-NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-service/backend      ClusterIP   10.233.56.99    <none>        5432/TCP   5m25s
-service/frontend     ClusterIP   10.233.22.64    <none>        9000/TCP   3m42s
-service/postgresql   ClusterIP   10.233.53.197   <none>        5432/TCP   6m20s
-
-NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/backend      1/1     1            1           6m20s
-deployment.apps/frontend     1/1     1            1           4m51s
-deployment.apps/postgresql   1/1     1            1           6m20s
-
-NAME                                   DESIRED   CURRENT   READY   AGE
-replicaset.apps/backend-6599ccf48b     1         1         1       6m20s
-replicaset.apps/frontend-668bbb4c75    1         1         1       4m51s
-replicaset.apps/postgresql-5945ddc6f   1         1         1       6m20s
+$ kubectl get all -o wide                                                                                                                                                                                                                     
+NAME                             READY   STATUS    RESTARTS      AGE     IP              NODE      NOMINATED NODE   READINESS GATES                                                                                                                                               
+pod/backend-f7bf88df8-vd2j9      1/1     Running   0             6m19s   10.233.103.14   worker2   <none>           <none>                                                                                                                                                        
+pod/frontend-89b699d55-jsbxp     1/1     Running   0             7m4s    10.233.110.26   worker1   <none>           <none>                                                                                                                                                        
+pod/postgresql-5945ddc6f-t2m9p   1/1     Running   1 (30m ago)   16h     10.233.110.24   worker1   <none>           <none>                                                                                                                                                        
+                                                                                                                                                                                                                                                                                  
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE   SELECTOR                                                                                                                                                                                          
+service/backend      ClusterIP   10.233.56.99    <none>        9000/TCP   16h   app=myapp-back                                                                                                                                                                                    
+service/frontend     ClusterIP   10.233.22.64    <none>        8080/TCP   16h   app=myapp-front                                                                                                                                                                                   
+service/postgresql   ClusterIP   10.233.53.197   <none>        5432/TCP   16h   app=myapp-db                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                  
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                      SELECTOR                                                                                                                                                             
+deployment.apps/backend      1/1     1            1           16h   backend      ottvladimir/backend:main    app=myapp-back                                                                                                                                                       
+deployment.apps/frontend     1/1     1            1           16h   frontend     ottvladimir/frontend:main   app=myapp-front                                                                                                                                                      
+deployment.apps/postgresql   1/1     1            1           16h   postgresql   postgres:13-alpine          app=myapp-db                                                                                                                                                         
+                                                                                                                                                                                                                                                                                  
+NAME                                   DESIRED   CURRENT   READY   AGE     CONTAINERS   IMAGES                      SELECTOR                                                                                                                                                      
+replicaset.apps/backend-6599ccf48b     0         0         0       16h     backend      ottvladimir/backend:main    app=myapp-back,pod-template-hash=6599ccf48b                                                                                                                   
+replicaset.apps/backend-f7bf88df8      1         1         1       6m19s   backend      ottvladimir/backend:main    app=myapp-back,pod-template-hash=f7bf88df8                                                                                                                    
+replicaset.apps/frontend-668bbb4c75    0         0         0       16h     frontend     ottvladimir/frontend:main   app=myapp-front,pod-template-hash=668bbb4c75                                                                                                                  
+replicaset.apps/frontend-89b699d55     1         1         1       7m5s    frontend     ottvladimir/frontend:main   app=myapp-front,pod-template-hash=89b699d55                                                                                                                   
+replicaset.apps/postgresql-5945ddc6f   1         1         1       16h     postgresql   postgres:13-alpine          app=myapp-db,pod-template-hash=5945ddc6f
 ```
 
 * для связи используются service (у каждого компонента свой);
