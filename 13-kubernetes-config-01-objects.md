@@ -234,8 +234,7 @@ deployment.apps/frontend     1/1     1            1           16h   frontend    
 deployment.apps/postgresql   1/1     1            1           16h   postgresql   postgres:13-alpine          app=myapp-db                                                                                                                                                         
                                                                                                                                                                                                                                                                                   
 NAME                                   DESIRED   CURRENT   READY   AGE     CONTAINERS   IMAGES                      SELECTOR                                                                                                                                                      
-replicaset.apps/backend-f7bf88df8      1         1         1       6m19s   backend      ottvladimir/backend:main    app=myapp-back,pod-template-hash=f7bf88df8     
-                                                                                                                
+replicaset.apps/backend-f7bf88df8      1         1         1       6m19s   backend      ottvladimir/backend:main    app=myapp-back,pod-template-hash=f7bf88df8                                                                                                                     
 replicaset.apps/frontend-89b699d55     1         1         1       7m5s    frontend     ottvladimir/frontend:main   app=myapp-front,pod-template-hash=89b699d55                                                                                                                   
 replicaset.apps/postgresql-5945ddc6f   1         1         1       16h     postgresql   postgres:13-alpine          app=myapp-db,pod-template-hash=5945ddc6f
 ```
