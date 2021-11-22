@@ -108,6 +108,9 @@ spec:
           name: frontend
           ports:
             - containerPort: 8000
+          env:
+            - name: BASE_URL
+              value: http://backend:9000
 ---
 apiVersion: v1
 kind: Service
@@ -115,11 +118,11 @@ metadata:
   name: frontend
 spec:
   selector:
-    app: myapp-back
+    app: myapp-front
   ports:
     - protocol: TCP
-      port: 9000
-      targetPort: 9000
+      port: 8080
+      targetPort: 8000
 ```
 backend.yml
 ```yml
@@ -145,6 +148,9 @@ spec:
         name: backend
         ports: 
           - containerPort: 9000
+        env:
+        - name: DATABASE_URL
+          value: postgres://postgres:postgres@db:5432/news
 ---
 apiVersion: v1
 kind: Service
@@ -152,11 +158,11 @@ metadata:
     name: backend
 spec:
   selector:
-    app: myapp-db
+    app: myapp-back
   ports:
     - protocol: TCP
-      port: 5432
-      targetPort: 5432
+      port: 9000
+      targetPort: 9000
 ```
 postgresql.yml
 ```yml
@@ -164,29 +170,34 @@ postgresql.yml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: myapp-back
-  name: backend
+  name: postgresql
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: myapp-back
+      app: myapp-db
+  replicas: 1
   template:
     metadata:
       labels:
-        app: myapp-back
+        app: myapp-db
     spec:
       containers:
-      - image: ottvladimir/backend:main
-        name: backend
-        ports: 
-          - containerPort: 9000
+      - name: postgresql
+        image: postgres:13-alpine
+        ports:
+          - containerPort: 5432
+        env:
+          - name: POSTGRES_DB
+            value: news
+          - name: POSTGRES_PASSWORD
+            value: postgres
+          - name: POSTGRES_USER
+            value: postgres
 ---
 apiVersion: v1
 kind: Service
 metadata:
-    name: backend
+  name: postgresql
 spec:
   selector:
     app: myapp-db
