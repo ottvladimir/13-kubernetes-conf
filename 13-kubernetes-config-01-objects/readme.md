@@ -150,7 +150,7 @@ spec:
           - containerPort: 9000
         env:
         - name: DATABASE_URL
-          value: postgres://postgres:postgres@db:5432/news
+          value: postgres://postgres:postgres@postgresql:5432/news
 ---
 apiVersion: v1
 kind: Service
