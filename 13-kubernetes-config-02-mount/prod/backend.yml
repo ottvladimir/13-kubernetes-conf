@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myapp-back
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp-back
+  template:
+    metadata:
+      labels:
+        app: myapp-back
+    spec:
+      containers:
+      - image: ottvladimir/backend:main
+        name: backend
+        ports: 
+          - containerPort: 9000
+        env:
+        - name: DATABASE_URL
+          value: postgres://postgres:postgres@db:5432/news
+        volumeMounts:
+          - mountPath: /static
+            name: pv
+      volumes:
+        - name: pv
+          persistentVolumeClaim:
+            claimName: pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: backend
+spec:
+  selector:
+    app: myapp-back
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
