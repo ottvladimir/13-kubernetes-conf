@@ -189,11 +189,12 @@ pvc    Bound    pv-static   1Gi        RWX            nfs            4m9s
 * файлы, созданные бекендом, должны быть доступны фронту.
 
 ```bash
-$ kubectl exec -it pod/backend-76fdc5c599-csqbq -- bash                                                                                                                    
-root@backend-76fdc5c599-csqbq:/app# touch /static/Testfile                                                               
+$ kubectl exec -it pod/backend-76fdc5c599-csqbq -- bash         
+root@backend-76fdc5c599-csqbq:/app# touch /static/Testfile
 root@backend-76fdc5c599-csqbq:/app# exit                                                                                 
 ```
 ```bash
-$ kubectl exec -it pod/frontend-6d956bfc8-zk7c5 -- bash                                                                                                           root@frontend-6d956bfc8-zk7c5:/app# ls /static/                                                                          
+$ kubectl exec -it pod/frontend-6d956bfc8-zk7c5 -- bash
+root@frontend-6d956bfc8-zk7c5:/app# ls /static/                                                                          
 Testfile                                                              
 ```
