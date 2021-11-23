@@ -4,7 +4,7 @@
 В stage окружении часто возникает необходимость отдавать статику бекенда сразу фронтом. Проще всего сделать это через общую папку. Требования:
 * в поде подключена общая папка между контейнерами (например, /static);
 ```yml
-apiVersion: apps/v1                                                                                                                                               
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -36,8 +36,8 @@ spec:
           - mountPath: /static
             name: page
       volumes:
-        - name: page                                                                                                                                               
-          emptyDir: {}
+        - name: page
+        emptyDir: {}
    ```
 * после записи чего-либо в контейнере с беком файлы можно получить из контейнера с фронтом.
 ```bash
